@@ -1,0 +1,7 @@
+extends layout 
+
+block content
+    h1 Noodles 
+    ul
+        each experience, e in experiences
+            li #{experience.barcode}: #{experience.note}
