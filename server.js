@@ -1,11 +1,15 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const port = 3000;
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+var db = JSON.parse(fs.readFileSync('./database.json'));
+
 
 app.use(function(req,res,next){
 	console.log(req.method);
@@ -19,27 +23,9 @@ app.use(function(req,res,next){
 app.use(express.static("./views"));
 
 app.get('/', (req, res) => {
-	let experiences = [
-		{
-			id: 1,
-			barcode: '059491000501',
-			note: "spicy ow oof"
-		},
-		{
-			id : 2,
-			barcode : '8801128542661',
-			note : "beef yum"
-		},
-		{
-			id : 3,
-			barcode : '8801073113428 ',
-			note : "tasty chicken"
-		}
-	]
-
-
+	
 	res.render('index.pug', {
-		experiences: experiences
+		experiences: db['experiences']
 	}
 	);
 })
