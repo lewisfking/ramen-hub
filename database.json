@@ -1,19 +1,37 @@
-
-{"experiences" : [
-    {
-        "id": 1,
-        "barcode": "059491000501",
-        "note": "spicy ow oof"
-    },
-    {
-        "id" : 2,
-        "barcode" : "8801128542661",
-        "note" : "beef yum"
-    },
-    {
-        "id" : 3,
-        "barcode" : "8801073113428",
-        "note" : "tasty chicken"
-    }
-]
+{
+    "experiences": [
+        {
+            "name": "Lou",
+            "barcode": "059491000501",
+            "note": "spicy ow oof"
+        },
+        {
+            "name": "Moo",
+            "barcode": "8801128542661",
+            "note": "beef yum"
+        },
+        {
+            "name": "soo",
+            "barcode": "8801073113428",
+            "note": "tasty chicken"
+        },
+        {
+            "name": "hellp",
+            "barcode": "123456",
+            "note": "dasdgsdfa"
+        },
+        {
+            "name": "dave",
+            "barcode": "123456",
+            "note": "yum"
+        }
+    ],
+    "users": [
+        {
+            "name": "lou"
+        },
+        {
+            "name": "dave"
+        }
+    ]
 }

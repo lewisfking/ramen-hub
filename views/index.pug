@@ -1,7 +1,7 @@
 extends layout 
 
 block content
-    h1 Noodles 
+    h1 Ramen Experiences 
     ul
         each experience, e in experiences
-            li #{experience.barcode}: #{experience.note}
+            li #{experience.name}: #{experience.barcode}: #{experience.note}
