@@ -2,10 +2,29 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
+const port = 3000;
+
+
+mongoose.connect('mongodb://localhost/ramen-hub');
+let db=mongoose.connection;
+
+
+db.once('open', function(){
+	console.log('Connected to mongoDB')
+});
+
+//check for db errors
+db.on('error', function(err){
+	console.log(err);
+});
 
 const app = express();
-const port = 3000;
+
+//bring in models
+let User = require('./models/user');
+let Experience = require('./models/experience');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -25,53 +44,58 @@ app.use(function(req,res,next){
 app.use(express.static("./views"));
 
 app.get('/', (req, res) => {
-	var db = JSON.parse(fs.readFileSync('./database.json'));
 
-	res.render('index.pug', {
-		experiences: db['experiences']
-	}
-	);
-})
+	Experience.find({}, function(err, experiences){
+		res.render('index.pug', {
+			experiences: experiences
+		});
+	});
+});
 
 app.get('/users/add', function(req,res){
-	var db = JSON.parse(fs.readFileSync('./database.json'));
-
-	res.render('add_user.pug', {
-		users: db['users']
+	User.find({}, function(err, users){
+		res.render('add_user.pug', {
+			users: users
+		});
 	});
 });
 
 app.get('/experiences/add', function(req,res){
-	var db = JSON.parse(fs.readFileSync('./database.json'));
-
-	res.render('add_experience.pug',{
-		users: db['users']
+	User.find({}, function(err, users){
+		res.render('add_experience.pug', {
+			users: users
+		});
 	});
 });
 
 app.post('/users/add', function (req,res){
-	user = {
-		"name" : req.body.username
-	}
-	if (user.name){
-		var db = JSON.parse(fs.readFileSync('./database.json'));
-		db["users"].push(user);
-		fs.writeFileSync('./database.json', JSON.stringify(db,null,4))
-	}
-	res.redirect('/');
+	let user = new User();
+	user.name = req.body.username;
+
+	user.save(function(err){
+		if(err){
+			console.log(err);
+		} else{
+			res.redirect('/');
+		}
+
+	})
 });
+
 app.post('/experiences/add', function (req,res){
-	experience = {
-		"name" : req.body.username,
-		"barcode" : req.body.barcode,
-		"note" : req.body.note
-	}
-	if (experience.name&&experience.barcode&&experience.note){
-		var db = JSON.parse(fs.readFileSync('./database.json'));
-		db["experiences"].push(experience);
-		fs.writeFileSync('./database.json', JSON.stringify(db,null,4))
-	}
-	res.redirect('/');
+	let	experience = new Experience();
+	experience.name = req.body.username;
+	experience.barcode = req.body.barcode;
+	experience.note = req.body.note;
+
+	experience.save(function(err){
+		if(err){
+			console.log(err);
+		} else{
+			res.redirect('/');
+		}
+
+	})
 });
 
 app.listen(port,function() {
