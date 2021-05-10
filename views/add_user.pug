@@ -1,0 +1,14 @@
+extends layout 
+
+block content
+
+    form(action="/users/add" method="POST")
+        #form-group
+            label Username:
+            input.form-control(type="text" name="username" placeholder="Enter Your Username ")
+        br
+        input.btn.btn-primary(type="submit", value="Submit")
+    h1 Users 
+    ul
+        each user, e in users
+            li #{user.name}

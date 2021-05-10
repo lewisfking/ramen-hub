@@ -1,0 +1,7 @@
+extends layout 
+
+block content
+    h1 Ramen Experiences 
+    ul
+        each experience, e in experiences
+            li #{experience.name}: #{experience.barcode}: #{experience.note}
