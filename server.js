@@ -23,7 +23,6 @@ db.on('error', function(err){
 const app = express();
 
 //bring in models
-let User = require('./models/user');
 let Experience = require('./models/experience');
 
 app.set('views', path.join(__dirname, 'views'));
@@ -52,37 +51,15 @@ app.get('/', (req, res) => {
 	});
 });
 
-app.get('/users/add', function(req,res){
-	User.find({}, function(err, users){
-		res.render('add_user.pug', {
-			users: users
-		});
-	});
-});
-
 app.get('/experiences/add', function(req,res){
-	User.find({}, function(err, users){
-		res.render('add_experience.pug', {
-			users: users
-		});
-	});
+		res.render('add_experience.pug');
+});
+app.get('/experiences', function(req,res){
+	res.redirect('/');
 });
 
-app.post('/users/add', function (req,res){
-	let user = new User();
-	user.name = req.body.username;
 
-	user.save(function(err){
-		if(err){
-			console.log(err);
-		} else{
-			res.redirect('/');
-		}
-
-	})
-});
-
-app.post('/experiences/add', function (req,res){
+app.post('/experiences', function (req,res){
 	let	experience = new Experience();
 	experience.name = req.body.username;
 	experience.barcode = req.body.barcode;

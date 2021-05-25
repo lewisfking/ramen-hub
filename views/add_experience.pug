@@ -2,15 +2,18 @@ extends layout
 
 block content
 
-  form(action="/experiences/add" method="POST")
-        p Username:
-        select(name='username')
-            each user in users
-                option=user.name
-        p Barcode:
-        input(type="text" name="barcode" placeholder="Enter the barcode ")
-        p Note:
-        textarea(type="text" name="note" placeholder="Enter your note ")
+  h1 Add experience
+
+  form(action="/experiences" method="POST")
+    #form-group
+      label Username:
+      input.form-control(type="text" name="username" placeholder="Enter the username ")
+    #form-group
+      label Barcode:
+      input.form-control(type="text" name="barcode" placeholder="Enter the barcode ")
+    #form-group 
+      label Note:
+      textarea.form-control(type="text" name="note" placeholder="Enter your note ")
         
-        br
-        input(type="submit")
+    br
+    input.btn.btn-primary(type="submit", value='Submit')
