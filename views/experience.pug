@@ -1,0 +1,11 @@
+extends layout 
+
+block content 
+
+    h1= experience.barcode
+    h2 experienced by: #{experience.name}
+    p= experience.note
+
+    hr
+    a.btn.btn-default(href='/experiences/'+experience._id+"/edit") Edit
+    a.btn.btn-danger.delete-experience(href='#', data-id=experience._id) Delete

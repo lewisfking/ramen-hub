@@ -2,6 +2,7 @@ extends layout
 
 block content
     h1 Ramen Experiences 
-    ul
+    ul.list-group
         each experience, e in experiences
-            li #{experience.name}: #{experience.barcode}: #{experience.note}
+            li.list-group-item 
+                a(href='/experiences/'+experience._id) #{experience.name}: #{experience.barcode}: #{experience.note}

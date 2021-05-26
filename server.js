@@ -31,6 +31,9 @@ app.set('view engine', 'pug');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json()); 
 
+//set public folder
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(function(req,res,next){
 	console.log(req.method);
 	console.log(req.url);
@@ -58,6 +61,25 @@ app.get('/experiences', function(req,res){
 	res.redirect('/');
 });
 
+//get experience
+app.get('/experiences/:id', function(req,res){
+	Experience.findById(req.params.id, function(err, experience){
+		res.render('experience.pug',{
+			experience:experience			
+		})
+	});
+
+});
+
+//load edit form
+app.get('/experiences/:id/edit', function(req,res){
+	Experience.findById(req.params.id, function(err, experience){
+		res.render('edit_experience.pug',{
+			experience:experience			
+		})
+	});
+
+});
 
 app.post('/experiences', function (req,res){
 	let	experience = new Experience();
@@ -74,6 +96,39 @@ app.post('/experiences', function (req,res){
 
 	})
 });
+
+//update experience
+app.post('/experiences/:id', function (req,res){
+	let	experience = {}
+	experience.name = req.body.username;
+	experience.barcode = req.body.barcode;
+	experience.note = req.body.note;
+
+	let query = {_id:req.params.id}
+
+	Experience.update(query, experience, function(err){
+		if(err){
+			console.log(err);
+		} else{
+			res.redirect('/');
+		}
+
+	})
+});
+
+
+app.delete('/experiences/:id', function (req,res){
+	let query={_id:req.params.id}
+
+	Experience.remove(query, function(err){
+		if (err){
+			console.log(err);
+		}
+		res.send("success")
+
+
+	})
+})
 
 app.listen(port,function() {
   console.log(`App listening at http://localhost:`+port);

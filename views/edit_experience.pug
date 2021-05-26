@@ -1,0 +1,19 @@
+extends layout 
+
+block content
+
+  h1 Edit experience
+
+  form(method="POST" action="/experiences/"+experience._id)
+    #form-group
+      label Username:
+      input.form-control(type="text" name="username" value=experience.name)
+    #form-group
+      label Barcode:
+      input.form-control(type="text" name="barcode" value=experience.barcode)
+    #form-group 
+      label Note:
+      textarea.form-control(type="text" name="note") #{experience.note}
+        
+    br
+    input.btn.btn-primary(type="submit", value='Submit')    
